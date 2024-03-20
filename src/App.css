@@ -1,5 +1,4 @@
 #root {
-  max-width: 800px;
   margin: 0 auto;
   padding: 0;
   text-align: center;
@@ -39,6 +38,14 @@
 
 .read-the-docs {
   color: #888;
+}
+
+textarea {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  width: 100%;
 }
 
 .header {
@@ -84,7 +91,7 @@
 .form-div > input,
 .form-div > select,
 .form-div > textarea {
-  min-width: 500px;
+  min-width: 300px;
 }
 
 ul li {
@@ -103,4 +110,13 @@ ul li {
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 769px) {
+  .form-div {
+    flex-direction: column;
+  }
+  .header {
+    flex-direction: column;
+  }
 }
