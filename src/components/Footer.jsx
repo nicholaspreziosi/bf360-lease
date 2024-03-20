@@ -8,7 +8,7 @@ function Footer() {
         <img
           className="logo"
           id="header-logo"
-          src="../public/bf360logohorizontal.png"
+          src="/bf360logohorizontal.png"
           alt=""
         />
       </div>
