@@ -91,7 +91,7 @@ textarea {
 .form-div > input,
 .form-div > select,
 .form-div > textarea {
-  min-width: 300px;
+  min-width: 500px;
 }
 
 ul li {
@@ -118,5 +118,11 @@ ul li {
   }
   .header {
     flex-direction: column;
+  }
+
+  .form-div > input,
+  .form-div > select,
+  .form-div > textarea {
+    min-width: 300px;
   }
 }
