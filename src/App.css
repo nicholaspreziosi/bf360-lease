@@ -48,7 +48,7 @@ textarea {
   width: 100%;
 }
 
-.header {
+#header {
   display: flex;
   gap: 12px;
   justify-content: center;
@@ -116,10 +116,9 @@ ul li {
   .form-div {
     flex-direction: column;
   }
-  .header {
+  #header {
     flex-direction: column;
   }
-
   .form-div > input,
   .form-div > select,
   .form-div > textarea {
