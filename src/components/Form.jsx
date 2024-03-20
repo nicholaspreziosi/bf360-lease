@@ -4,18 +4,30 @@ import "../App.css";
 function Form({ leaseData, setLeaseData }) {
   const [capCost, setCapCost] = useState(true);
   const [modelCode, setModelCode] = useState(false);
+  const [vin, setVin] = useState(false);
+  const [stock, setStock] = useState(false);
+  const [firstMonth, setFirstMonth] = useState(false);
+  const [mileageFee, setMilageFee] = useState(false);
 
-  function handleMakeChange(e) {
-    if (e.target.value === "Subaru") {
+  function handleMakeChange() {
+    const make = document.querySelector("#make");
+    if (make.value === "Subaru") {
       setModelCode(true);
     } else {
       setModelCode(false);
     }
-    console.log(modelCode);
-    if (e.target.value === "Audi") {
+    if (make.value === "Audi") {
       setCapCost(true);
+      setVin(false);
+      setStock(false);
+      setFirstMonth(false);
+      setMilageFee(false);
     } else {
       setCapCost(false);
+      setVin(true);
+      setStock(true);
+      setFirstMonth(true);
+      setMilageFee(true);
     }
   }
 
@@ -63,7 +75,6 @@ function Form({ leaseData, setLeaseData }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     setLeaseData({
       ...leaseData,
       dealership: `${document.querySelector("#dealership").value}`,
@@ -91,14 +102,55 @@ function Form({ leaseData, setLeaseData }) {
     });
   }
 
+  function clearForm(e) {
+    e.preventDefault();
+    const form = document.querySelector("#lease-form");
+    setLeaseData({
+      dealership: "",
+      year: "",
+      make: "",
+      model: "",
+      trim: "",
+      modelCode: "",
+      vin: "",
+      stock: "",
+      msrp: "",
+      capitalizedCost: "",
+      payment: "",
+      months: "",
+      downPayment: "",
+      dueAtSigning: "",
+      securityDeposit: "",
+      firstMonth: true,
+      mileageFee: "",
+      mileageAmount: "",
+      dispositionAmount: "",
+      dispositionIncluded: true,
+      docAmount: "",
+      acquisitionAmount: "",
+      acquisitionIncluded: true,
+      expiration: "",
+      additionalInfo: "",
+    });
+    form.reset();
+  }
+
   return (
     <>
-      <form className="lease-form" action="">
+      <form autoComplete="off" id="lease-form" className="lease-form" action="">
+        <button
+          onClick={(e) => {
+            clearForm(e);
+            handleMakeChange();
+          }}
+          className="clear-btn"
+        >
+          Clear Form
+        </button>
         <div className="form-div">
           <label htmlFor="make">Manufacturer:</label>
           <select onChange={handleMakeChange} required name="make" id="make">
             <option value="Audi">Audi</option>
-            <option value="Ford">Ford</option>
             <option value="Subaru">Subaru</option>
             <option value="Toyota">Toyota</option>
             <option value="Volkswagen">Volkswagen</option>
@@ -158,11 +210,11 @@ function Form({ leaseData, setLeaseData }) {
             type="text"
           />
         </div>
-        <div className="form-div">
+        <div className={vin ? "form-div" : "hidden"}>
           <label htmlFor="vin">VIN #:</label>
           <input placeholder="VIN #" id="vin" required name="vin" type="text" />
         </div>
-        <div className="form-div">
+        <div className={stock ? "form-div" : "hidden"}>
           <label htmlFor="stock">Stock #:</label>
           <input
             placeholder="Stock #"
@@ -175,6 +227,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="msrp">MSRP:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="MSRP"
             id="msrp"
             required
@@ -185,6 +240,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className={capCost ? "form-div" : "hidden"}>
           <label htmlFor="capitalized-cost">Capitalized Cost:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Capitalized Cost"
             id="capitalized-cost"
             required={capCost ? "required" : ""}
@@ -195,6 +253,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="payment">Monthly Payment:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Monthly Payment"
             id="payment"
             required
@@ -205,6 +266,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="months">Number of Months:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Number of Months"
             id="months"
             required
@@ -215,6 +279,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="due-at-signing">Due At Signing:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Due At Signing"
             id="due-at-signing"
             required
@@ -225,6 +292,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="down-payment">Down Payment:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Down Payment"
             id="down-payment"
             required
@@ -235,6 +305,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="security-deposit">Security Deposit:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Security Deposit"
             id="security-deposit"
             required
@@ -242,7 +315,7 @@ function Form({ leaseData, setLeaseData }) {
             type="number"
           />
         </div>
-        <div className="form-div">
+        <div className={firstMonth ? "form-div" : "hidden"}>
           <label htmlFor="first-month">First Month Payment?</label>
           <select
             onChange={handleFirstMonthChange}
@@ -254,9 +327,12 @@ function Form({ leaseData, setLeaseData }) {
             <option value="Not Included">Not Included</option>
           </select>
         </div>
-        <div className="form-div">
+        <div className={mileageFee ? "form-div" : "hidden"}>
           <label htmlFor="mileage-fee">Excessive Mileage Fee:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             id="mileage-fee"
             required
             placeholder="Excessive Mileage Fee (Ex. 0.15)"
@@ -267,6 +343,9 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="mileage-amount">Mileage Allowance:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             id="mileage-amount"
             required
             placeholder="Mileage Allowance (Ex. 10000)"
@@ -277,52 +356,64 @@ function Form({ leaseData, setLeaseData }) {
         <div className="form-div">
           <label htmlFor="doc">Dealer Doc Fee:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Dealer Doc Fee (Ex. 799)"
+            value={799}
+            readOnly="readonly"
             id="doc"
             required
             name="doc"
             type="number"
           />
         </div>
-        <div className="form-div">
-          <label htmlFor="acquisition">Acquisition Fee:</label>
+        <div style={{ display: "none" }} className="form-div">
+          <label hidden={true} htmlFor="acquisition">
+            Acquisition Fee:
+          </label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Acquisition Fee (Ex. 695)"
             id="acquisition"
             htmlFor="acquisition"
-            required
             name="acquisition"
             type="number"
           />
         </div>
-        <div className="form-div">
-          <label htmlFor="acquisition-select"> Included? </label>
+        <div style={{ display: "none" }} className="form-div">
+          <label hidden={true} htmlFor="acquisition-select">
+            {" "}
+            Included?{" "}
+          </label>
           <select
             onChange={handleAcqChange}
             id="acquisition-select"
-            required
             name="acquisition-select"
           >
             <option value="Included">Included</option>
             <option value="Not Included">Not Included</option>
           </select>
         </div>
-        <div className="form-div">
+        <div style={{ display: "none" }} className="form-div">
           <label htmlFor="disposition">Disposition Fee:</label>
           <input
+            onWheel={(e) => {
+              e.target.blur();
+            }}
             placeholder="Disposition Fee (Ex. 350)"
             id="disposition"
-            required
             name="disposition"
             type="number"
           />
         </div>
-        <div className="form-div">
+        <div style={{ display: "none" }} className="form-div">
           <label htmlFor="disposition-select">Included? </label>
           <select
             onChange={handleDispChange}
             id="disposition-select"
-            required
             name="disposition-select"
           >
             <option value="Included">Included</option>

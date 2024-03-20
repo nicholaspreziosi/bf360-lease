@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../App.css";
+import { render } from "react-dom";
 
 function Lease({ leaseData }) {
   function formatDate(date) {
@@ -41,6 +42,20 @@ function Lease({ leaseData }) {
   }
 
   function subaruDisclaimer(leaseData) {
+    function generateSubaruFees(leaseData) {
+      if (leaseData.firstMonth) {
+        return `Does not include taxes, license,
+        dealer doc fee of ${numberWithCommas(leaseData.docAmount)}, or other
+        dealer fees.`;
+      } else if (!leaseData.firstMonth) {
+        return `Does not include taxes, license,
+        dealer doc fee of ${numberWithCommas(
+          leaseData.docAmount
+        )}, first month's payment, or other
+        dealer fees.`;
+      }
+    }
+
     return (
       <div className={leaseData.make === "Subaru" ? "lease" : "hidden"}>
         <h1>Subaru</h1>
@@ -62,12 +77,10 @@ function Lease({ leaseData }) {
           mos w/ ${numberWithCommas(leaseData.dueAtSigning)} due at signing. TTL
           PYMT: ${numberWithCommas(leaseData.payment * leaseData.months)}.{" "}
           {numberWithCommas(leaseData.mileageAmount)} mi per year. $
-          {leaseData.mileageFee} per mi over. Does not include taxes, license,
-          dealer doc fee of ${numberWithCommas(leaseData.docAmount)},
-          disposition fee of ${numberWithCommas(leaseData.dispositionAmount)},
-          or other dealer fees. Cannot be combined with any other offers or
-          discounts. Subject to credit approval. Other restrictions may apply.
-          See dealer for details. Expires {formatDate(leaseData.expiration)}.
+          {leaseData.mileageFee} per mi over. {generateSubaruFees(leaseData)}{" "}
+          Cannot be combined with any other offers or discounts. Subject to
+          credit approval. Other restrictions may apply. See dealer for details.
+          Expires {formatDate(leaseData.expiration)}.
         </p>
       </div>
     );
@@ -75,19 +88,14 @@ function Lease({ leaseData }) {
 
   function toyotaDisclaimer(leaseData) {
     function generateToyotaFees(leaseData) {
-      if (
-        !leaseData.acquisitionIncluded &&
-        !leaseData.firstMonth &&
-        !leaseData.dispositionIncluded
-      ) {
-        return `Price(s) include(s) all costs to be paid by a customer, except for
-        licensing costs, registration fees, first month's payment, the dealership's $${numberWithCommas(
+      if (!leaseData.firstMonth) {
+        return `Price(s) include(s) all costs to be paid by a customer, except for applicable taxes, licensing costs, registration fees, the dealership's $${numberWithCommas(
           leaseData.docAmount
-        )}
-        documentation fee, a $${numberWithCommas(leaseData.acquisitionAmount)}
-        acquisition fee, and a $${numberWithCommas(
-          leaseData.dispositionAmount
-        )} disposition fee.`;
+        )} documentation fee, first month's payment, and other fees.`;
+      } else {
+        return `Price(s) include(s) all costs to be paid by a customer, except for applicable taxes, licensing costs, registration fees, the dealership's $${numberWithCommas(
+          leaseData.docAmount
+        )} documentation fee, and other fees.`;
       }
     }
 
@@ -123,17 +131,10 @@ function Lease({ leaseData }) {
 
   function volkswagenDisclaimer(leaseData) {
     function generateVWFees(leaseData) {
-      if (leaseData.acquisitionIncluded && leaseData.firstMonth) {
-        return `Does not include MVC fees, dealer doc fee of $${leaseData.docAmount}, or taxes.`;
-      }
-      if (leaseData.acquisitionIncluded && !leaseData.firstMonth) {
-        return `Does not include MVC fees, dealer doc fee of $${leaseData.docAmount}, first month's payment, or taxes.`;
-      }
-      if (!leaseData.acquisitionIncluded && leaseData.firstMonth) {
-        return `Does not include MVC fees, dealer doc fee of $${leaseData.docAmount}, acquisition fee, or taxes.`;
-      }
-      if (!leaseData.acquisitionIncluded && !leaseData.firstMonth) {
-        return `Does not include MVC fees, dealer doc fee of $${leaseData.docAmount}, acquisition fee, first month's payment, or taxes.`;
+      if (leaseData.firstMonth) {
+        return `Does not include MVC fees, dealer doc fee of $${leaseData.docAmount}, taxes, or other fees.`;
+      } else if (!leaseData.firstMonth) {
+        return `Does not include MVC fees, dealer doc fee of $${leaseData.docAmount}, first month's payment, taxes, or other fees.`;
       }
     }
 
