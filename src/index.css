@@ -12,6 +12,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  display: flex;
+  justify-content: center;
 }
 
 a {
@@ -28,6 +31,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
+  max-width: 800px;
   min-height: 100vh;
   padding: 1rem;
 }
