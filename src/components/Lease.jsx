@@ -74,8 +74,9 @@ function Lease({ leaseData }) {
           {leaseData.stock}. Model Code: {leaseData.modelCode}. New{" "}
           {leaseData.year} {leaseData.make} {leaseData.model} {leaseData.trim}{" "}
           for ${numberWithCommas(leaseData.payment)}/mo for {leaseData.months}{" "}
-          mos w/ ${numberWithCommas(leaseData.dueAtSigning)} due at signing. TTL
-          PYMT: ${numberWithCommas(leaseData.payment * leaseData.months)}.{" "}
+          mos w/ ${numberWithCommas(leaseData.dueAtSigning)} due at signing.
+          Total of Lease Payments: $
+          {numberWithCommas(leaseData.payment * leaseData.months)}.{" "}
           {numberWithCommas(leaseData.mileageAmount)} mi per year. $
           {leaseData.mileageFee} per mi over. {generateSubaruFees(leaseData)}{" "}
           Cannot be combined with any other offers or discounts. Subject to
