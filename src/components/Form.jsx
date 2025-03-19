@@ -360,7 +360,6 @@ function Form({ leaseData, setLeaseData }) {
               e.target.blur();
             }}
             placeholder="Dealer Doc Fee (Ex. 799)"
-            readOnly="readonly"
             id="doc"
             required
             name="doc"
